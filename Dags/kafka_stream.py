@@ -9,7 +9,7 @@ from airflow.operators.python import PythonOperator
 from kafka import KafkaProducer
 
 default_args = {
-    'owner': 'samyak',
+    'owner': 'samyak_anand',
     'start_date': datetime(2024, 5, 18, 10, 0)
 }
 
