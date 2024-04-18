@@ -7,6 +7,10 @@ import requests
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from kafka import KafkaProducer
+from logging_config import configure_logging
+
+# Configure logging
+configure_logging()
 
 default_args = {
     'owner': 'samyak',
@@ -40,19 +44,30 @@ def process_weather_data(data):
         longitude = location.get('longitude')
         hourly_forecasts = forecast.get('hours', [])
         for hourly_forecast in hourly_forecasts:
-            timestamp = hourly_forecast.get('timestamp')
-            temperature = hourly_forecast.get('temperature_2m')
-            humidity = hourly_forecast.get('relative_humidity_2m')
             processed_entry = {
                 'latitude': latitude,
                 'longitude': longitude,
-                'timestamp': timestamp,
-                'temperature': temperature,
-                'humidity': humidity
-                # Add more fields as needed
+                'timestamp': hourly_forecast.get('timestamp'),
+                'temperature_2m': hourly_forecast.get('temperature_2m'),
+                'relative_humidity_2m': hourly_forecast.get('relative_humidity_2m'),
+                'dew_point_2m': hourly_forecast.get('dew_point_2m'),
+                'apparent_temperature': hourly_forecast.get('apparent_temperature'),
+                'precipitation_probability': hourly_forecast.get('precipitation_probability'),
+                'precipitation': hourly_forecast.get('precipitation'),
+                'rain': hourly_forecast.get('rain'),
+                'showers': hourly_forecast.get('showers'),
+                'snowfall': hourly_forecast.get('snowfall'),
+                'snow_depth': hourly_forecast.get('snow_depth'),
+                'weather_code': hourly_forecast.get('weather_code'),
+                'cloud_cover': hourly_forecast.get('cloud_cover'),
+                'cloud_cover_low': hourly_forecast.get('cloud_cover_low'),
+                'cloud_cover_mid': hourly_forecast.get('cloud_cover_mid'),
+                'cloud_cover_high': hourly_forecast.get('cloud_cover_high')
+
             }
             processed_data.append(processed_entry)
     return processed_data
+
 
 def stream_weather_data():
     producer = KafkaProducer(bootstrap_servers=['broker:29092'], max_block_ms=5000)
@@ -72,7 +87,7 @@ def stream_weather_data():
 
 with DAG('weather_forecast_automation',
          default_args=default_args,
-         schedule_interval='@daily',
+         schedule='@daily',
          catchup=False) as dag:
 
     streaming_task = PythonOperator(
