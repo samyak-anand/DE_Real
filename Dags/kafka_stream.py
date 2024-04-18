@@ -80,3 +80,4 @@ with DAG('weather_forecast_automation',
         python_callable=stream_weather_data
     )
 
+
