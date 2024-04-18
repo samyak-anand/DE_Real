@@ -5,4 +5,4 @@ def configure_logging():
     logging.basicConfig(level=logging.INFO)
 
 # Calling the function to configure logging
-configure_logging()logging.basicConfig(level=logging.INFO)
+configure_logging()
