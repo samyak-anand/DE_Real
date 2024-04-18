@@ -79,3 +79,4 @@ with DAG('weather_forecast_automation',
         task_id='stream_weather_data_to_kafka',
         python_callable=stream_weather_data
     )
+
