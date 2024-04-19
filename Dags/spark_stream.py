@@ -124,7 +124,7 @@ def create_cassandra_connection():
         cas_session = cluster.connect()
         return cas_session
     except Exception as e:
-        logging.error(f"Could not create Cassandra connection due to {e}")
+        logging.error(f"Could not create Cassandra connection due to error {e}")
         return None
 
 
