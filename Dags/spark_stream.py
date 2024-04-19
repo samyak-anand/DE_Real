@@ -158,6 +158,7 @@ def create_selection_df_from_kafka(spark_df):
 
     return sel
 
+
 if __name__ == "__main__":
     # Create Spark connection
     spark_conn = create_spark_connection()
