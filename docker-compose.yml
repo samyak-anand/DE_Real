@@ -104,7 +104,7 @@ services:
       test: [ "CMD", "curl", "-f", "http://localhost:9021/health" ]
       interval: 30s
       timeout: 10s
-      retries: 5
+
 
   webserver:
     image: apache/airflow:2.6.0-python3.9
